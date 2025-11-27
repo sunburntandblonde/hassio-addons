@@ -1,21 +1,13 @@
 # ARG BUILD_FROM
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:latest
+ARG BUILD_FROM=ghcr.io/hassio-addons/base-nodejs:0.2.3
 FROM ${BUILD_FROM}
-
-RUN apk add --no-cache \
-    nodejs \
-    npm \
-    git \
-    build-base \
-    # Clean up apk cache in the same layer to reduce final image size
-    && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
 # Copy data for add-on
 COPY nodejsApp /app
 
-RUN npm install --unsafe-perm
+RUN npm install
 
 RUN chmod a+x /app/run.sh
 
